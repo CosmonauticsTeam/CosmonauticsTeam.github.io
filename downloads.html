@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads — Create Cosmonautics</title>
+  <meta name="description" content="Download the latest modules of Create Cosmonautics mod for Minecraft Forge and Fabric.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Twinkling Particle Canvas -->
+  <canvas id="space-canvas"></canvas>
+
+  <!-- Strict Layout Lines -->
+  <div class="grid-overlay"></div>
+
+  <!-- Sticky Glass Header -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo-wrapper">
+        <div class="logo-canvas-container" id="logo-viewer">
+          <!-- 3D spinning logo canvas loaded by Three.js -->
+        </div>
+        <span class="logo-text">Cosmonautics</span>
+      </a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+        <a href="downloads.html" class="active">Downloads</a>
+      </nav>
+      <a href="downloads.html"><button class="btn-download-nav">Download</button></a>
+    </div>
+  </header>
+
+  <!-- Downloads Section -->
+  <section id="downloads">
+    <div class="section-title-wrap">
+      <div class="section-subtitle">System Deployment</div>
+      <h2 class="section-title">Install Modules</h2>
+    </div>
+    <div class="download-grid" style="display: flex; justify-content: center;">
+      <div class="download-card" style="max-width: 400px; width: 100%;">
+        <h3 class="download-version">v1.3.8 (Latest)</h3>
+        <p class="download-platform">Minecraft 1.21.1 — NeoForge</p>
+        <div class="download-meta">
+          <span>File size: 11.5 MB</span>
+          <span>Requires: Create, Create Simulated, Sable, Dimension Sable</span>
+        </div>
+        <a href="https://github.com/CosmonauticsTeam/Create-Cosmonautics/releases/tag/1.3.8" target="_blank" style="text-decoration: none; display: block; width: 100%;">
+          <button class="btn-primary" style="width: 100%;">Download</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-text">
+        <p>&copy; 2026 Create Cosmonautics Mod Team. All mechanical components reserved.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/CosmonauticsTeam/Create-Cosmonautics" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js Library & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- App & Model Viewer Scripts -->
+  <script src="js/model-viewer.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Initialize 3D Viewers -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // List of available blocks to load randomly (excluding hose, hologram, engine pipes, rcs)
+      const blocks = [
+        { json: 'assets/booster_thruster.json', texture: 'assets/booster_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/engine_nozzle.json', texture: 'assets/thruster_holder.png', scale: 12, yOffset: -0.8 },
+        { json: 'assets/rocket_thruster.json', texture: 'assets/rocket_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/separator_single.json', texture: 'assets/separator.png', scale: 13, yOffset: -1.5 },
+        { json: 'assets/separator.json', texture: 'assets/separator.png', scale: 13, yOffset: -1.5 },
+        { json: 'assets/sputnik.json', texture: 'assets/sputnik.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/thruster_mount.json', texture: 'assets/booster_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/vector_thruster.json', texture: 'assets/vector_thruster.png', scale: 12, yOffset: -1.5 }
+      ];
+      
+      const randomBlock = blocks[Math.floor(Math.random() * blocks.length)];
+
+      // Spinning Logo (Isometric, non-interactive, auto-spins)
+      window.initMinecraftViewer('logo-viewer', randomBlock.json, randomBlock.texture, {
+        controls: false,
+        scale: randomBlock.scale,
+        yOffset: randomBlock.yOffset
+      });
+    });
+  </script>
+</body>
+</html>

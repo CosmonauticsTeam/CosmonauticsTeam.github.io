@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Cosmonautics — Engineering the Cosmos in Minecraft</title>
+  <meta name="description" content="Official website for Create Cosmonautics, a Minecraft mod that brings orbital mechanics, space travel, and mechanical rocketry to your game.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Twinkling Particle Canvas -->
+  <canvas id="space-canvas"></canvas>
+
+  <!-- Strict Layout Lines -->
+  <div class="grid-overlay"></div>
+
+  <!-- Sticky Glass Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#home" class="logo-wrapper">
+        <div class="logo-canvas-container" id="logo-viewer">
+          <!-- 3D spinning logo canvas loaded by Three.js -->
+        </div>
+        <span class="logo-text">Cosmonautics</span>
+      </a>
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="news.html">News</a>
+        <a href="downloads.html">Downloads</a>
+      </nav>
+      <a href="downloads.html"><button class="btn-download-nav">Download</button></a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <p class="hero-tagline">A Create Mod Expansion</p>
+    <h1 class="hero-title">Create<br>Cosmonautics</h1>
+    <p class="hero-desc">
+      Scale new heights and engineer the cosmos. Build orbital rockets, control booster thrusters, configure flight path computers, and conquer outer space using kinetic rotational power.
+    </p>
+    <div class="hero-actions">
+      <a href="downloads.html" class="btn-primary">Download Mod</a>
+      <a href="news.html" class="btn-secondary">Read Updates</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-text">
+        <p>&copy; 2026 Create Cosmonautics Mod Team. All mechanical components reserved.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/CosmonauticsTeam/Create-Cosmonautics" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js Library & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  
+  <!-- App & Model Viewer Scripts -->
+  <script src="js/model-viewer.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Initialize 3D Viewers -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // List of available blocks to load randomly (excluding hose, hologram, engine pipes, rcs)
+      const blocks = [
+        { json: 'assets/booster_thruster.json', texture: 'assets/booster_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/engine_nozzle.json', texture: 'assets/thruster_holder.png', scale: 12, yOffset: -0.8 },
+        { json: 'assets/rocket_thruster.json', texture: 'assets/rocket_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/separator_single.json', texture: 'assets/separator.png', scale: 13, yOffset: -1.5 },
+        { json: 'assets/separator.json', texture: 'assets/separator.png', scale: 13, yOffset: -1.5 },
+        { json: 'assets/sputnik.json', texture: 'assets/sputnik.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/thruster_mount.json', texture: 'assets/booster_thruster.png', scale: 12, yOffset: -1.5 },
+        { json: 'assets/vector_thruster.json', texture: 'assets/vector_thruster.png', scale: 12, yOffset: -1.5 }
+      ];
+      
+      const randomBlock = blocks[Math.floor(Math.random() * blocks.length)];
+
+      // Spinning Logo (Isometric, non-interactive, auto-spins)
+      window.initMinecraftViewer('logo-viewer', randomBlock.json, randomBlock.texture, {
+        controls: false,
+        scale: randomBlock.scale,
+        yOffset: randomBlock.yOffset
+      });
+    });
+  </script>
+</body>
+</html>
