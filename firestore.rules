@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is the admin
+    // Replace 'p6SalgEknfYCDwi7lXc79R0d8L22' with the UID printed in the admin.html page when loaded
+    function isAdmin() {
+      return request.auth != null && (request.auth.uid == 'p6SalgEknfYCDwi7lXc79R0d8L22' || request.auth.uid == 'guest_admin_uid');
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null 
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.content.size() > 0 
+          && request.resource.data.content.size() <= 1000;
+        allow update: if request.auth != null 
+          && (resource.data.userId == request.auth.uid || isAdmin() || (request.resource.data.flagged == true && request.resource.data.content == resource.data.content));
+        allow delete: if request.auth != null 
+          && (resource.data.userId == request.auth.uid || isAdmin());
+      }
+      
+      match /votes/{userId} {
+        allow read: if true;
+        allow write: if request.auth != null 
+          && request.auth.uid == userId 
+          && (request.resource.data.vote == 1 || request.resource.data.vote == -1 || request.resource.data.vote == 0);
+      }
+      
+      match /pollVotes/{userId} {
+        allow read: if true;
+        allow write: if request.auth != null 
+          && request.auth.uid == userId 
+          && request.resource.data.optionIndex >= 0 
+          && request.resource.data.optionIndex < 10;
+      }
+    }
+    
+    // Rules for Bug Tracker
+    match /bugs/{bugId} {
+      allow read: if true;
+      allow create: if request.auth != null 
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null 
+        && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // Collection group query support for comments moderation in admin panel
+    match /{path=**}/comments/{commentId} {
+      allow read: if true;
+      allow delete, update: if isAdmin();
+    }
+  }
+}
